@@ -12,8 +12,10 @@
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
 // #include "Wire.h" // * Dont think this is needed
-////////////////////////////////////////////////////////
-////////////////
+
+#include <IRremote.h>
+
+////////////////////////////////////////////////////////////////////////
 //
 //  ######
 //  #     # ###### ###### # #    # # ##### #  ####  #    #  ####
@@ -26,6 +28,7 @@
 ////////////////////////////////////////////////////////////////////////
 #define INTERRUPT_PIN 2  // use pin 2 on Arduino Uno & most boards
 #define LED_PIN 13       // (Arduino is 13, Teensy is 11, Teensy++ is 6)
+int IR_RECEIVE_PIN = 11;
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -39,6 +42,7 @@
 //
 ////////////////////////////////////////////////////////////////////////
 MPU6050 mpu;
+IRrecv IrReceiver(IR_RECEIVE_PIN);
 
 ////////////////////////////////////////////////////////////////////////
 //
@@ -75,7 +79,7 @@ volatile bool mpuInterrupt = false;  // indicates whether MPU interrupt pin has 
 ////////////////////////////////////////////////////////////////////////
 //
 //  ######                                                #####
-//  #     # #####   ####   ####  #####    ##   #    #    #     # #####   ##   #####  ##### #    # #####
+//  #     # #####   ####   ####  ####¦#    ##   #    #    #     # #####   ##   #####  ##### #    # #####
 //  #     # #    # #    # #    # #    #  #  #  ##  ##    #         #    #  #  #    #   #   #    # #    #
 //  ######  #    # #    # #      #    # #    # # ## #     #####    #   #    # #    #   #   #    # #    #
 //  #       #####  #    # #  ### #####  ###### #    #          #   #   ###### #####    #   #    # #####
@@ -95,6 +99,8 @@ void setup() {
 
   // configure LED for output
   pinMode(LED_PIN, OUTPUT);
+
+  IrReceiver.enableIRIn();  // Start the receiver
 }
 
 ///////////////////////////////////////////////////////////////////////
@@ -113,11 +119,17 @@ void loop() {
   if (!dmpReady) return;
   // read a packet from FIFO
   if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) {  // Get the Latest packet
-    yawPitchRoll();
+    // yawPitchRoll();
 
     // blink LED to indicate activity
     blinkState = !blinkState;
     digitalWrite(LED_PIN, blinkState);
+  }
+
+  if (IrReceiver.decode()) {
+    Serial.println(IrReceiver.results.value, HEX);
+
+    IrReceiver.resume();  // Receive the next value
   }
   delay(1);
 }
