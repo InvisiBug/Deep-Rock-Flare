@@ -11,6 +11,7 @@
 ////////////////////////////////////////////////////////////////////////
 #include "I2Cdev.h"
 #include "MPU6050_6Axis_MotionApps20.h"
+#include "Streaming.h"
 // #include "Wire.h" // * Dont think this is needed
 
 #include <IRremote.h>
@@ -28,6 +29,10 @@
 ////////////////////////////////////////////////////////////////////////
 #define INTERRUPT_PIN 2  // use pin 2 on Arduino Uno & most boards
 #define LED_PIN 13       // (Arduino is 13, Teensy is 11, Teensy++ is 6)
+#define redPin 7
+#define bluePin 6
+#define greenPin 5
+
 int IR_RECEIVE_PIN = 11;
 
 ////////////////////////////////////////////////////////////////////////
@@ -94,6 +99,8 @@ void setup() {
   // (115200 chosen because it is required for Teapot Demo output, but it's
   // really up to you depending on your project)
   Serial.begin(115200);
+  // pinMode(5, OUTPUT);
+  // digitalWrite(5, LOW);
 
   startSensor();
 
@@ -116,20 +123,18 @@ void setup() {
 ///////////////////////////////////////////////////////////////////////
 void loop() {
   // if programming failed, don't try to do anything
-  if (!dmpReady) return;
+  // if (!dmpReady) return;
   // read a packet from FIFO
-  if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) {  // Get the Latest packet
-    // yawPitchRoll();
+  // if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) {  // Get the Latest packet
+  // yawPitchRoll();
+  // realAccel();
 
-    // blink LED to indicate activity
-    blinkState = !blinkState;
-    digitalWrite(LED_PIN, blinkState);
-  }
+  // blink LED to indicate activity
+  // blinkState = !blinkState;
+  // digitalWrite(LED_PIN, blinkState);
+  // }
 
-  if (IrReceiver.decode()) {
-    Serial.println(IrReceiver.results.value, HEX);
+  readIR();
 
-    IrReceiver.resume();  // Receive the next value
-  }
   delay(1);
 }

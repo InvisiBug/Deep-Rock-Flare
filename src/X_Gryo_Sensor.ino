@@ -1,10 +1,13 @@
 void startSensor() {
-  Serial.println(F("Initializing I2C devices..."));
+  Serial << "Initializing Gyro..." << endl;
   mpu.initialize();
   pinMode(INTERRUPT_PIN, INPUT);
 
   // verify connection
+
+  Serial << "Checking Connection" << endl;
   Serial.println(F("Testing device connections..."));
+  // mpu.testtestConnection() ? Serial << "MPU6050 connection successful" << endl : Serial << "MPU6050 connection failed" << endl;
   Serial.println(mpu.testConnection() ? F("MPU6050 connection successful") : F("MPU6050 connection failed"));
 
   // wait for ready
@@ -34,12 +37,14 @@ void startSensor() {
     mpu.CalibrateAccel(6);
     mpu.CalibrateGyro(6);
     mpu.PrintActiveOffsets();
-    // turn on the DMP, now that it's ready
     Serial.println(F("Enabling DMP..."));
     mpu.setDMPEnabled(true);
 
+    // turn on the DMP, now that it's ready
     // enable Arduino interrupt detection
-    Serial.print(F("Enabling interrupt detection (Arduino external interrupt "));
+
+    Serial << "Enabling interrupt detection (Arduino external interrupt" << endl;
+    // Serial.print(F("Enabling interrupt detection (Arduino external interrupt "));
     Serial.print(digitalPinToInterrupt(INTERRUPT_PIN));
     Serial.println(F(")..."));
     attachInterrupt(digitalPinToInterrupt(INTERRUPT_PIN), dmpDataReady, RISING);
@@ -56,9 +61,20 @@ void startSensor() {
     // 1 = initial memory load failed
     // 2 = DMP configuration updates failed
     // (if it's going to break, usually the code will be 1)
-    Serial.print(F("DMP Initialization failed (code "));
-    Serial.print(devStatus);
-    Serial.println(F(")"));
+
+    Serial << "DMP Initialization failed, code:" << devStatus << endl;
+  }
+}
+
+void readGyro() {
+  if (!dmpReady) return;
+  if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) {  // Get the Latest packet
+    // yawPitchRoll();
+    // realAccel();
+
+    // blink LED to indicate activity
+    // blinkState = !blinkState;
+    // digitalWrite(LED_PIN, blinkState);
   }
 }
 
@@ -70,12 +86,8 @@ void realWorldAccel() {
   mpu.dmpGetGravity(&gravity, &q);
   mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
   mpu.dmpGetLinearAccelInWorld(&aaWorld, &aaReal, &q);
-  Serial.print("aworld\t");
-  Serial.print(aaWorld.x);
-  Serial.print("\t");
-  Serial.print(aaWorld.y);
-  Serial.print("\t");
-  Serial.println(aaWorld.z);
+
+  Serial << "aworld\t" << aaWorld.x << "\t" << aaWorld.y << "\t" << aaWorld.z << endl;
 }
 
 void realAccel() {
@@ -83,12 +95,8 @@ void realAccel() {
   mpu.dmpGetAccel(&aa, fifoBuffer);
   mpu.dmpGetGravity(&gravity, &q);
   mpu.dmpGetLinearAccel(&aaReal, &aa, &gravity);
-  Serial.print("areal\t");
-  Serial.print(aaReal.x);
-  Serial.print("\t");
-  Serial.print(aaReal.y);
-  Serial.print("\t");
-  Serial.println(aaReal.z);
+
+  Serial << "areal\t" << aaReal.x << "\t" << aaReal.y << "\t" << aaReal.z << endl;
 }
 
 void yawPitchRoll() {
@@ -96,12 +104,12 @@ void yawPitchRoll() {
   mpu.dmpGetQuaternion(&q, fifoBuffer);
   mpu.dmpGetGravity(&gravity, &q);
   mpu.dmpGetYawPitchRoll(ypr, &q, &gravity);
-  Serial.print("ypr\t");
-  Serial.print(ypr[0] * 180 / M_PI);
-  Serial.print("\t");
-  Serial.print(ypr[1] * 180 / M_PI);
-  Serial.print("\t");
-  Serial.println(ypr[2] * 180 / M_PI);
+
+  ypr[0] = ypr[0] * 180 / M_PI;
+  ypr[1] = ypr[1] * 180 / M_PI;
+  ypr[3] = ypr[3] * 180 / M_PI;
+
+  Serial << "ypr\t" << ypr[0] << "\t" << ypr[1] << "\t" << ypr[2] << endl;
 }
 
 void dmpDataReady() {
