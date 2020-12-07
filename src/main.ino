@@ -107,7 +107,7 @@ VectorFloat gravity;  // [x, y, z]            gravity vector
 // from the FIFO. Note this also requires gravity vector calculations.
 // Also note that yaw/pitch/roll angles suffer from gimbal lock (for
 // more info, see: http://en.wikipedia.org/wiki/Gimbal_lock)
-//#define OUTPUT_READABLE_YAWPITCHROLL
+#define OUTPUT_READABLE_YAWPITCHROLL
 
 // uncomment "OUTPUT_READABLE_REALACCEL" if you want to see acceleration
 // components with gravity removed. This acceleration reference frame is
@@ -120,7 +120,7 @@ VectorFloat gravity;  // [x, y, z]            gravity vector
 // components with gravity removed and adjusted for the world frame of
 // reference (yaw is relative to initial orientation, since no magnetometer
 // is present in this case). Could be quite handy in some cases.
-//#define OUTPUT_READABLE_WORLDACCEL
+#define OUTPUT_READABLE_WORLDACCEL
 
 // uncomment "OUTPUT_TEAPOT_OSC" if you want output that matches the
 // format used for the InvenSense teapot demo
@@ -213,17 +213,17 @@ void setup(void) {
 
   //WiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
-  WiFiManager wifiManager;
+  // WiFiManager wifiManager;
   //reset saved settings
   //wifiManager.resetSettings();
 
   //fetches ssid and pass from eeprom and tries to connect
   //if it does not connect it starts an access point with the specified name
   //and goes into a blocking loop awaiting configuration
-  wifiManager.autoConnect(DEVICE_NAME);
+  // wifiManager.autoConnect(DEVICE_NAME);
 
-  Serial.print(F("WiFi connected! IP address: "));
-  Serial.println(WiFi.localIP());
+  // Serial.print(F("WiFi connected! IP address: "));
+  // Serial.println(WiFi.localIP());
 
   mpu_setup();
 }
