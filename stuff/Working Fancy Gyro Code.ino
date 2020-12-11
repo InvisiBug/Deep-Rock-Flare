@@ -120,11 +120,11 @@ VectorFloat gravity;  // [x, y, z]            gravity vector
 // components with gravity removed and adjusted for the world frame of
 // reference (yaw is relative to initial orientation, since no magnetometer
 // is present in this case). Could be quite handy in some cases.
-#define OUTPUT_READABLE_WORLDACCEL
+//#define OUTPUT_READABLE_WORLDACCEL
 
 // uncomment "OUTPUT_TEAPOT_OSC" if you want output that matches the
 // format used for the InvenSense teapot demo
-#define OUTPUT_TEAPOT_OSC
+//#define OUTPUT_TEAPOT_OSC
 
 #ifdef OUTPUT_READABLE_EULER
 float euler[3];  // [psi, theta, phi]    Euler angle container
@@ -173,10 +173,12 @@ void mpu_setup() {
   devStatus = mpu.dmpInitialize();
 
   // supply your own gyro offsets here, scaled for min sensitivity
-  mpu.setXGyroOffset(220);
-  mpu.setYGyroOffset(76);
-  mpu.setZGyroOffset(-85);
-  mpu.setZAccelOffset(1788);  // 1688 factory default for my test chip
+  mpu.setXAccelOffset(-4301);
+  mpu.setYAccelOffset(-1927);
+  mpu.setZAccelOffset(1482);
+  mpu.setXGyroOffset(67);
+  mpu.setYGyroOffset(-41);
+  mpu.setZGyroOffset(53);  // 1688 factory default for my test chip
 
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {
@@ -213,17 +215,17 @@ void setup(void) {
 
   //WiFiManager
   //Local intialization. Once its business is done, there is no need to keep it around
-  // WiFiManager wifiManager;
+  WiFiManager wifiManager;
   //reset saved settings
   //wifiManager.resetSettings();
 
   //fetches ssid and pass from eeprom and tries to connect
   //if it does not connect it starts an access point with the specified name
   //and goes into a blocking loop awaiting configuration
-  // wifiManager.autoConnect(DEVICE_NAME);
+  wifiManager.autoConnect(DEVICE_NAME);
 
-  // Serial.print(F("WiFi connected! IP address: "));
-  // Serial.println(WiFi.localIP());
+  Serial.print(F("WiFi connected! IP address: "));
+  Serial.println(WiFi.localIP());
 
   mpu_setup();
 }

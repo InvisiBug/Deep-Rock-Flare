@@ -107,7 +107,7 @@ VectorFloat gravity;  // [x, y, z]            gravity vector
 // from the FIFO. Note this also requires gravity vector calculations.
 // Also note that yaw/pitch/roll angles suffer from gimbal lock (for
 // more info, see: http://en.wikipedia.org/wiki/Gimbal_lock)
-//#define OUTPUT_READABLE_YAWPITCHROLL
+#define OUTPUT_READABLE_YAWPITCHROLL
 
 // uncomment "OUTPUT_READABLE_REALACCEL" if you want to see acceleration
 // components with gravity removed. This acceleration reference frame is
@@ -124,7 +124,7 @@ VectorFloat gravity;  // [x, y, z]            gravity vector
 
 // uncomment "OUTPUT_TEAPOT_OSC" if you want output that matches the
 // format used for the InvenSense teapot demo
-#define OUTPUT_TEAPOT_OSC
+//#define OUTPUT_TEAPOT_OSC
 
 #ifdef OUTPUT_READABLE_EULER
 float euler[3];  // [psi, theta, phi]    Euler angle container
@@ -173,10 +173,12 @@ void mpu_setup() {
   devStatus = mpu.dmpInitialize();
 
   // supply your own gyro offsets here, scaled for min sensitivity
-  mpu.setXGyroOffset(220);
-  mpu.setYGyroOffset(76);
-  mpu.setZGyroOffset(-85);
-  mpu.setZAccelOffset(1788);  // 1688 factory default for my test chip
+  mpu.setXAccelOffset(-4301);
+  mpu.setYAccelOffset(-1927);
+  mpu.setZAccelOffset(1482);
+  mpu.setXGyroOffset(67);
+  mpu.setYGyroOffset(-41);
+  mpu.setZGyroOffset(53);  // 1688 factory default for my test chip
 
   // make sure it worked (returns 0 if so)
   if (devStatus == 0) {

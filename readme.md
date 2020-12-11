@@ -1,6 +1,12 @@
 # Deep Rock Galacic Based Battery Powered Light
 
 ## Notes
+### Board Issues
+- ESP8266 version must be `2.5.0`
+- Can't be programmed from within platformio at the moment
+  - Arduino must be used (sorry)
+
+
 ### Mechanical
 1. Take the batteries out of the pack and house them in the square parts of the bumpers
 2. Have the light change when set down on a base station
@@ -22,3 +28,4 @@
 
 
 # look for gyro ball light the colin furze electrician friend made
+
