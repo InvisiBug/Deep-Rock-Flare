@@ -1,6 +1,19 @@
 # Deep Rock Galacic Based Battery Powered Light
 
 ## Notes
+
+## Pinout
+| Nano | MPU6050 |IR| LEDs|
+| --- | --- | -- | --- |
+| D11 |  | Out | 
+| D7 |  | | Red
+| D6 |  | | Green
+| D5 |  | | Blue
+| D2 | INT |
+| A4 | SDA |
+| A5 | SCL |
+
+
 ### Mechanical
 1. Take the batteries out of the pack and house them in the square parts of the bumpers
 2. Have the light change when set down on a base station
