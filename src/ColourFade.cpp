@@ -125,8 +125,7 @@ int ColourFade::upDown(int newVal, int oldVal) {
   else if (newVal - oldVal == 0)
     return newVal;
 
-  return 0;
-  // return 0;  // Removes warning, check this *NB*
+  return 0;  // * Removes warning, check this *NB*
 }
 
 void ColourFade::updateLEDs() {
