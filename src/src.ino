@@ -3,8 +3,8 @@
   |  Nano  |  MPU6050  |  IR   |  LEDs  |
   +--------+-----------+-------+--------+
   |  D11   |           |  Out  |        |
-  |  D7    |           |       |  Red   |
-  |  D6    |           |       |  Green |
+  |  D6    |           |       |  Red   |
+  |  D10   |           |       |  Green |
   |  D5    |           |       |  Blue  |
   |  D2    |  INT      |       |        |
   |  A4    |  SDA      |       |        |
