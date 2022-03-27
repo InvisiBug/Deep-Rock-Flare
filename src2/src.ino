@@ -97,10 +97,31 @@ void setup() {
 ///////////////////////////////////////////////////////////////////////
 void loop() {
   colourFade.run();
+  // setAll(0x00bfff);  // Scout
+  // delay(5000);
+
+  // setAll(0xff1000);  // Engie
+  // delay(5000);
+
+  // setAll(0xff7700);  // Driller
+  // delay(5000);
+
+  // setAll(0x00ff00);  // Gunner
+  // delay(5000);
 
   // unsigned long currentMillis = millis();
   // if (currentMillis - previousMillis >= interval) {
   //   previousMillis = currentMillis;
   //   choice = colours[random(0, 25)];
   // }
+}
+
+void setAll(unsigned long colour) {
+  int red = (colour & 0xff0000) >> 16;
+  int green = (colour & 0x00ff00) >> 8;
+  int blue = (colour & 0x0000ff);
+
+  analogWrite(redPin, red);
+  analogWrite(greenPin, green);
+  analogWrite(bluePin, blue);
 }

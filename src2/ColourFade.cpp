@@ -110,7 +110,7 @@ void ColourFade::chooseNewColour()  // need to include the rndom seed here
 {
   randomSeed(analogRead(0));
 
-  uint32_t newColour = colours[random(0, 24)];  // Pick a random colour from the table
+  uint32_t newColour = colours[random(0, sizeof(colours) / sizeof(colours[0]))];  // Pick a random colour from the table
 
   newRed = (newColour & 0xff0000) >> 16;
   newGreen = (newColour & 0x00ff00) >> 8;

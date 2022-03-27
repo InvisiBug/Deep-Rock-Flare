@@ -42,7 +42,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
 
   If an MPU6050 
-      * is an ideal member of its tribe, 
+      * is an ideal member of its tribe,
       * is properly warmed up, 
       * is at rest in a neutral position, 
       * is in a location where the pull of gravity is exactly 1g, and 
@@ -56,7 +56,7 @@ outputs close to these target values.
 5-10 minutes so its temperature gets stabilized.
 
   Run this program.  A "----- done -----" line will indicate that it has done its best.
-With the current accuracy-related constants (NFast = 1000, NSlow = 10000), it will take 
+With the current accuracy-related constants (NFast = 1000, NSlow = 10000), it will take
 a few minutes to get there.
 
   Along the way, it will generate a dozen or so lines of output, showing that for each 
