@@ -110,11 +110,10 @@ void ColourFade::chooseNewColour() {
   // analogWrite(redPin, 0);
   // analogWrite(greenPin, 0);
   // analogWrite(bluePin, 0);
-  // delay(5 * 1000);  // Pause on final colour for a sec
+  delay(5 * 1000);  // Pause on final colour for a sec
   // randomSeed(analogRead(0));
 
   int randomColour = random(0, sizeof(colours) / sizeof(colours[0]));
-  Serial << randomColour << endl;
 
   uint32_t newColour = colours[randomColour];  // Pick a random colour from the table
 
@@ -123,7 +122,7 @@ void ColourFade::chooseNewColour() {
   newGreen = (newColour & 0x00ff00) >> 8;
   newBlue = (newColour & 0x0000ff);
 
-  Serial << _HEX(newColour) << endl;
+  // Serial << _HEX(newColour) << endl;
   // Serial << newRed << "\t" << newGreen << "\t" << newBlue << endl;
 }
 
