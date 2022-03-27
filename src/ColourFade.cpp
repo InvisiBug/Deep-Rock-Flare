@@ -32,13 +32,13 @@ void ColourFade::run(int wait) {
   if (currentMillis - lastMillis >= wait) {
     lastMillis = currentMillis;
 
+    // Serial << newRed - oldRed << "\t" << newGreen - oldGreen << "\t" << newBlue - oldBlue << endl;
+
     if (newRed - oldRed != 0 || newGreen - oldGreen != 0 || newBlue - oldBlue != 0) {
       oldRed = upDown(newRed, oldRed);
       oldGreen = upDown(newGreen, oldGreen);
       oldBlue = upDown(newBlue, oldBlue);
-    }
-
-    else if (newRed - oldRed == 0 && newGreen - oldGreen == 0 && newBlue - oldBlue == 0) {
+    } else if (newRed - oldRed == 0 && newGreen - oldGreen == 0 && newBlue - oldBlue == 0) {
       chooseNewColour();
     }
 
@@ -106,15 +106,25 @@ void ColourFade::reset() {
   oldBlue = 0;
 }
 
-void ColourFade::chooseNewColour()  // need to include the rndom seed here
-{
-  randomSeed(analogRead(0));
+void ColourFade::chooseNewColour() {
+  // analogWrite(redPin, 0);
+  // analogWrite(greenPin, 0);
+  // analogWrite(bluePin, 0);
+  // delay(5 * 1000);  // Pause on final colour for a sec
+  // randomSeed(analogRead(0));
 
-  uint32_t newColour = colours[random(0, sizeof(colours) / sizeof(colours[0]))];  // Pick a random colour from the table
+  int randomColour = random(0, sizeof(colours) / sizeof(colours[0]));
+  Serial << randomColour << endl;
 
+  uint32_t newColour = colours[randomColour];  // Pick a random colour from the table
+
+  // uint32_t newColour = 0xff1000;
   newRed = (newColour & 0xff0000) >> 16;
   newGreen = (newColour & 0x00ff00) >> 8;
   newBlue = (newColour & 0x0000ff);
+
+  Serial << _HEX(newColour) << endl;
+  // Serial << newRed << "\t" << newGreen << "\t" << newBlue << endl;
 }
 
 int ColourFade::upDown(int newVal, int oldVal) {
@@ -125,10 +135,11 @@ int ColourFade::upDown(int newVal, int oldVal) {
   else if (newVal - oldVal == 0)
     return newVal;
 
-  return 0;  // * Removes warning, check this *NB*
+  return 0;  // * Removes warning
 }
 
 void ColourFade::updateLEDs() {
+  // Serial << oldRed << "\t" << oldGreen << "\t" << oldBlue << endl;
   analogWrite(redPin, oldRed);
   analogWrite(greenPin, oldGreen);
   analogWrite(bluePin, oldBlue);
