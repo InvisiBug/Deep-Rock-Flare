@@ -60,10 +60,10 @@ bool checkShake() {
 
     readAcceleration();
 
-    int threshold = 8500;
+    int threshold = 10000;
 
     if ((aaReal.x > threshold || aaReal.x < -threshold) ||
-        // (aaReal.y > threshold || aaReal.y < -threshold) ||
+        (aaReal.y > threshold || aaReal.y < -threshold) ||
         (aaReal.z > threshold || aaReal.z < -threshold)) {
       return true;
     }

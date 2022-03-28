@@ -111,7 +111,7 @@ void ColourFade::chooseNewColour() {
   // analogWrite(greenPin, 0);
   // analogWrite(bluePin, 0);
   delay(5 * 1000);  // Pause on final colour for a sec
-  // randomSeed(analogRead(0));
+  randomSeed(analogRead(0));
 
   int randomColour = random(0, sizeof(colours) / sizeof(colours[0]));
 

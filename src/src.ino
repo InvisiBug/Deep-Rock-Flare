@@ -105,6 +105,8 @@ unsigned long lastDebounceTime = 0;  // the last time the output pin was toggled
 unsigned long debounceDelay = 1;
 int buttonState;
 int lastButtonState = HIGH;
+
+int mode = 1;
 ////////////////////////////////////////////////////////////////////////
 //
 //  ######                                                #####
@@ -118,9 +120,9 @@ int lastButtonState = HIGH;
 ////////////////////////////////////////////////////////////////////////
 void setup() {
   Serial.begin(115200);
-  setAll(0x00bfff);
+  setAll(0xffffff);
 
-  // startMPU();
+  startMPU();
 
   Serial << "| Flare |" << endl;
 }
@@ -137,8 +139,55 @@ void setup() {
 //
 ///////////////////////////////////////////////////////////////////////
 void loop() {
+  readAcceleration();
+  readYawPitchRoll();
+
   // if (!dmpReady) return;
-  colourFade.run();
+  if (mode == 1) {
+    colourFade.run();
+  } else if (mode == 2) {
+    setAll(0x00ff00);
+  } else if (mode == 3) {
+    setAll(0xff7700);
+  } else if (mode == 4) {
+    setAll(0x00bfff);
+  } else if (mode == 5) {
+    setAll(0xff1000);
+  }
+
+  // if (mpu.dmpGetCurrentFIFOPacket(fifoBuffer)) {  // Get the Latest packet
+  bool reading = checkShake();
+  // Serial << reading << endl;
+
+  // Serial << "Acceleration"
+  //        << "\t" << aaReal.x << "\t" << aaReal.y << "\t" << aaReal.z;
+
+  // Serial << "\tYPR"
+  //        << "\t" << ypr[0] * 180 / M_PI << "\t" << ypr[1] * 180 / M_PI << "\t" << ypr[2] * 180 / M_PI << endl;
+
+  if (reading != lastButtonState && reading) {
+    Serial << "Shake detected" << endl;
+    if (mode < 5) {
+      mode++;
+    } else {
+      mode = 1;
+    }
+    // }
+  }
+
+ Serial << mode << endl;
+  lastButtonState = reading;
+
+  // unsigned long currentMillis = millis();
+  // if (currentMillis - previousMillis >= interval) {
+  //   previousMillis = currentMillis;
+
+  //   // if (mode < 5) {
+  //   //   mode++;
+  //   // } else {
+  //   //   mode = 1;
+  //   // }
+  // }
 
   // bool reading = checkShake();
   // // Serial << reading << endl;
