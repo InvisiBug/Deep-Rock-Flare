@@ -141,6 +141,7 @@ void setup() {
 void loop() {
   readAcceleration();
   readYawPitchRoll();
+  mode = 1;
 
   // if (!dmpReady) return;
   if (mode == 1) {
@@ -175,7 +176,7 @@ void loop() {
     // }
   }
 
- Serial << mode << endl;
+  Serial << mode << endl;
   lastButtonState = reading;
 
   // unsigned long currentMillis = millis();
